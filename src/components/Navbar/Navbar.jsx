@@ -1,13 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Login from "./Login";
-import Signup from "./Signup";
+import Login from "./LoginBtn";
+import Signup from "./SignupBtn";
 import UserMenu from "./UserMenu";
 
 export default function Navbar() {
-	// const authStatus = useSelector((state) => state.auth.status);
-	const authStatus = true;
+	const authStatus = useSelector((state) => state.auth.status);
 	return (
 		<header className="relative flex justify-between h-20 w-full shrink-0 items-center px-4 md:px-6">
 			<Button asChild variant="ghost">
