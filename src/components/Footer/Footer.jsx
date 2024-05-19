@@ -7,7 +7,7 @@ export default function Component() {
 		{ icon: TwitterIcon, label: "Twitter", href: "#" },
 	];
 	return (
-		<footer className="dark bg-white  py-6">
+		<footer className="dark bg-white py-5 border-0 border-t-2">
 			<div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between">
 				<div className="text-center md:text-left mb-6 md:mb-0">
 					<p className="text-lg">

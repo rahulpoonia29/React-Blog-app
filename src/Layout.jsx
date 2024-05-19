@@ -25,11 +25,13 @@ function Layout() {
 	return loading ? (
 		<div>Loading data</div>
 	) : (
-		<Container className="w-full">
+		<div className="w-full min-h-screen flex flex-col">
 			<Navbar />
-			<Outlet />
+			<div className="flex-grow flex flex-col justify-center">
+				<Outlet />
+			</div>
 			<Footer />
-		</Container>
+		</div>
 	);
 }
 
