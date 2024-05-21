@@ -7,30 +7,32 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import { Button } from "@/components/ui/button";
 import { ChevronRight, LogOut } from "lucide-react";
 import Logout from "./LogoutBtn";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 function UserMenu() {
-	const username = "Rahul";
+	const userData = useSelector((state) => state.auth.userData);
+
 	return (
 		<div className="flex gap-2 ">
 			<Avatar>
 				<AvatarImage
-					src="https://github.com/shadcn.png"
+					// src="https://github.com/shadcn.png"
 					alt="@shadcn"
 				/>
-				<AvatarFallback>RP</AvatarFallback>
+				<AvatarFallback>{userData ? userData.name.charAt(0) : ""}</AvatarFallback>
 			</Avatar>
 
 			<DropdownMenu>
-				<DropdownMenuTrigger aschild>
+				<DropdownMenuTrigger asChild>
 					<Button
 						variant="ghost"
 						className="group text-md flex gap-0.5 transition-all "
 					>
-						{username}
+						{userData ? userData.name : ""}
 						<ChevronRight className="h-4 w-4 group-hover:rotate-90 transition-all" />
 					</Button>
 				</DropdownMenuTrigger>
@@ -41,7 +43,7 @@ function UserMenu() {
 					<DropdownMenuItem>Create New Post</DropdownMenuItem>
 					<DropdownMenuItem>Settings</DropdownMenuItem>
 					<DropdownMenuSeparator />
-					<DropdownMenuItem aschild>
+					<DropdownMenuItem>
 						<Logout />
 					</DropdownMenuItem>
 				</DropdownMenuContent>

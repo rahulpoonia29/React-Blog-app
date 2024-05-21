@@ -13,7 +13,9 @@ function Layout() {
 		authenticationService
 			.getCurrentUser()
 			.then((userData) =>
-				userData ? dispatch(login(userData)) : dispatch(logout())
+				userData
+					? dispatch(login({ userData: userData }))
+					: dispatch(logout())
 			)
 			.catch((error) => {
 				console.error(error);

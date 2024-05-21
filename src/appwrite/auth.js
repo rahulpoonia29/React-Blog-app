@@ -12,27 +12,31 @@ class AuthenticationService {
 		this.account = new Account(this.client);
 	}
 
-	async createAccount(email, password) {
+	async createAccount({ email, password, name }) {
 		try {
 			const userAccount = await this.account.create(
 				ID.unique(),
 				String(email),
-				String(password)
+				String(password),
+				String(name)
 			);
 			if (userAccount) {
 				// Login the user
-				this.Login(email, password);
+				this.Login({ email, password });
+				return this.getCurrentUser();
 			} else {
-				return userAccount;
+				return null;
 			}
 		} catch (error) {
 			throw error;
 		}
 	}
 
-	async Login(email, password) {
+	async Login({ email, password }) {
+		console.log(email, password);
 		try {
-			return await this.account.createEmailPasswordSession(email, password);
+			await this.account.createEmailPasswordSession(email, password);
+			return this.getCurrentUser();
 		} catch (error) {
 			throw error;
 		}
@@ -42,7 +46,10 @@ class AuthenticationService {
 		try {
 			return await this.account.get();
 		} catch (error) {
-			console.log("Appwrite Error :: authService :: getCurrentUser", error);
+			console.log(
+				"Appwrite Error :: authService :: getCurrentUser",
+				error
+			);
 		}
 	}
 
@@ -50,11 +57,11 @@ class AuthenticationService {
 		try {
 			this.account.deleteSession("current");
 		} catch (error) {
-			console.log("Appwrite Error :: logout :: ", error);
+			console.log("Appwrite Error :: authService :: logout :: ", error);
 		}
 	}
 }
 
-const authenticationService = new AuthenticationService()
+const authenticationService = new AuthenticationService();
 
 export default authenticationService;
