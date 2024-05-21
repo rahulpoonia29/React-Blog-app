@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import SignupForm from "./pages/Signup";
 import { LoginForm } from "./pages/Login";
+import NewPost from "./pages/NewPost";
 
 function App() {
 	const router = createBrowserRouter(
@@ -15,6 +16,7 @@ function App() {
 				{/* <Route path="/" /> */}
 				<Route path="/login" element={<LoginForm />} />
 				<Route path="/register" element={<SignupForm />} />
+				<Route path="/new" element={<NewPost />} />
 				{/* <Route path="/profile" element={<Profile />} /> */}
 				{/* <Route path="/dashboard" element={<Dashboard />} /> */}
 				{/* <Route path="/about" element={<About />} /> */}

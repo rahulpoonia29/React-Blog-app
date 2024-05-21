@@ -12,6 +12,7 @@ import { ChevronRight, LogOut } from "lucide-react";
 import Logout from "./LogoutBtn";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function UserMenu() {
 	const userData = useSelector((state) => state.auth.userData);
@@ -23,7 +24,9 @@ function UserMenu() {
 					// src="https://github.com/shadcn.png"
 					alt="@shadcn"
 				/>
-				<AvatarFallback>{userData ? userData.name.charAt(0) : ""}</AvatarFallback>
+				<AvatarFallback>
+					{userData ? userData.name.charAt(0) : ""}
+				</AvatarFallback>
 			</Avatar>
 
 			<DropdownMenu>
@@ -40,7 +43,9 @@ function UserMenu() {
 					<DropdownMenuLabel>My Account</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem>Profile</DropdownMenuItem>
-					<DropdownMenuItem>Create New Post</DropdownMenuItem>
+					<DropdownMenuItem>
+						<Link to={"/new"}>Create New Post</Link>
+					</DropdownMenuItem>
 					<DropdownMenuItem>Settings</DropdownMenuItem>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem>

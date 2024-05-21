@@ -13,7 +13,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import authenticationService from "../appwrite/auth";
-import { logout, login } from "../store/authSlice";
+import {  login } from "../store/authSlice";
 import { useNavigate } from "react-router-dom";
 
 export function LoginForm() {

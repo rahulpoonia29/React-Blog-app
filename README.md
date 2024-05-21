@@ -2,6 +2,8 @@
 
 This project is a React blog application that utilizes Appwrite for user authentication and backend functionality.
 
+You can find a live preview [here](https://react-blog-app-wine.vercel.app).
+
 ## Features
 
 - **User Authentication:** Signup and Login functionalities for user management (implemented with Appwrite).
