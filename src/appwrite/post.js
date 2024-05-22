@@ -24,8 +24,7 @@ class PostService {
 					featuredImage,
 					status,
 					userID,
-				},
-				["read('any')"]
+				}
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: postService :: createPost", error);
@@ -91,3 +90,7 @@ class PostService {
 		}
 	}
 }
+
+const postService = new PostService();
+
+export default postService;
