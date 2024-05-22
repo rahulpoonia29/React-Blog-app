@@ -68,8 +68,8 @@ class PostService {
 		try {
 			return await this.database.listDocuments(
 				config.APPWRITE_DATABASE_ID,
-				config.APPWRITE_COLLECTION_ID,
-				queries
+				config.APPWRITE_COLLECTION_ID
+				// queries
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: postService :: getPosts", error);
