@@ -18,7 +18,7 @@ function Post({ title, content, featuredImage, ...rest }) {
 	}, []);
 
 	return (
-		<Card className="mx-auto max-w-sm">
+		<Card className="mx-auto max-w-sm shadow-md">
 			<CardHeader>
 				<CardTitle className="text-2xl">{title}</CardTitle>
 				<CardDescription>{parse(content)}</CardDescription>

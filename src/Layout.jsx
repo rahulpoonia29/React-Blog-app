@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { login, logout } from "./store/authSlice";
 import { useDispatch } from "react-redux";
 import authenticationService from "./appwrite/auth";
-import { Navbar, Footer, Container } from "./components";
+import { Navbar, Footer } from "./components";
 import { Outlet } from "react-router-dom";
 
 function Layout() {

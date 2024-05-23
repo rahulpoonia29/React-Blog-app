@@ -22,7 +22,7 @@ function AllPosts() {
 		);
 	} else {
 		return (
-			<div className="flex flex-wrap gap-4">
+			<div className="columns-3xs gap-4 m-4">
 				{posts && posts.length > 0 ? (
 					posts.map((post, key) => <Post key={key} {...post} />)
 				) : (

@@ -165,7 +165,7 @@ function NewPost() {
 							onEditorChange={onChange}
 							initialValue=""
 							init={{
-								height: 380,
+								height: 450,
 								menubar: true,
 								plugins: [
 									"advlist",
