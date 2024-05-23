@@ -1,4 +1,4 @@
-import { Client, ID } from "appwrite";
+import { Client, ID, Storage } from "appwrite";
 import config from "../config/config";
 
 class FileService {
@@ -14,14 +14,27 @@ class FileService {
 
 	async uploadFile(file) {
 		try {
-			return this.storage.createFile(
+			return await this.storage.createFile(
 				config.APPWRITE_BUCKET_ID,
 				ID.unique(),
 				file
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: fileService :: uploadFile", error);
-			return false;
+			return null;
+		}
+	}
+
+	async getFile(fileID, ...rest) {
+		try {
+			return await this.storage.getFilePreview(
+				config.APPWRITE_BUCKET_ID,
+				fileID,
+				...rest
+			);
+		} catch (error) {
+			console.log("Appwrite Error :: fileService :: getFile", error);
+			return null;
 		}
 	}
 
@@ -33,7 +46,7 @@ class FileService {
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: fileService :: updateFile", error);
-			return false;
+			return null;
 		}
 	}
 
@@ -45,7 +58,11 @@ class FileService {
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: fileService :: deleteFile", error);
-			return false;
+			return null;
 		}
 	}
 }
+
+const fileService = new FileService();
+
+export default fileService;

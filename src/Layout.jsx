@@ -21,11 +21,13 @@ function Layout() {
 				console.error(error);
 				dispatch(logout());
 			})
-			.finally(setLoading(false));
+			.finally(() => setLoading(false));
 	});
 
 	return loading ? (
-		<div>Loading data</div>
+		<div className="h-screen grid justify-center items-center text-2xl font-semibold">
+			Loading data
+		</div>
 	) : (
 		<div className="w-full min-h-screen flex flex-col">
 			<Navbar />
