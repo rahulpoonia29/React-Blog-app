@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import fileService from "../appwrite/file";
 import { useNavigate } from "react-router-dom";
+import config from "../config/config";
 
 function NewPost() {
 	const {
@@ -161,7 +162,7 @@ function NewPost() {
 					rules={{ required: "Post content is required" }}
 					render={({ field: { onChange } }) => (
 						<Editor
-							apiKey="9ib8tgwimr5pyqo86th0fbsojkbujylm2m4gvel7q5ycu90u"
+							apiKey={config.TINYEDITOR_API_KEY}
 							onEditorChange={onChange}
 							initialValue=""
 							init={{
