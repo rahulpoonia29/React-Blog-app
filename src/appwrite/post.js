@@ -51,16 +51,16 @@ class PostService {
 		}
 	}
 
-	async getPost(slug) {
+	async getPost(postID) {
 		try {
 			return await this.database.getDocument(
 				config.APPWRITE_DATABASE_ID,
 				config.APPWRITE_COLLECTION_ID,
-				slug
+				postID
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: postService :: getPost", error);
-			return false;
+			return null;
 		}
 	}
 

@@ -1,37 +1,57 @@
-import parse from "html-react-parser";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
 import fileService from "../../appwrite/file";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Skeleton } from "@/components/ui/skeleton";
+import parse from "html-react-parser";
 
-function Post({ title, content, featuredImage, ...rest }) {
+function Post({ title, content, featuredImage, $id, ...rest }) {
 	const [image, setImage] = useState(null);
+	const navigate = useNavigate();
+
+	const extractTextFromHTML = (htmlString) => {
+		const parsed = parse(htmlString);
+		let text = "";
+
+		const traverse = (node) => {
+			if (typeof node === "string") {
+				text += node;
+			} else if (node && node.props && node.props.children) {
+				const children = Array.isArray(node.props.children)
+					? node.props.children
+					: [node.props.children];
+				children.forEach(traverse);
+			}
+		};
+
+		traverse(parsed);
+		return text;
+	};
 
 	useEffect(() => {
 		fileService.getFile(featuredImage).then((data) => setImage(data.href));
-	}, []);
+	}, [featuredImage]);
 
 	return (
-		<Card className="mx-auto max-w-sm shadow-md">
-			<CardHeader>
-				<CardTitle className="text-2xl">{title}</CardTitle>
-				<CardDescription>{parse(content)}</CardDescription>
-			</CardHeader>
-			<CardContent className="grid gap-4">
-				{image ? (
-					<img src={image} alt={title} className="w-full" />
-				) : (
-					<p>Loading</p>
-				)}
-			</CardContent>
-			<CardFooter></CardFooter>
-		</Card>
+		<div
+			className="cursor-pointer pb-4 bg-gray-100 border rounded-lg mx-auto shadow-lg w-full hover:shadow-2xl transition-transform transform hover:-translate-y-1.5"
+			onClick={() => navigate(`/post/${$id}`)}
+		>
+			{image ? (
+				<img
+					src={image}
+					alt={title}
+					className="rounded-t-lg w-full aspect-video object-center object-cover"
+				/>
+			) : (
+				<Skeleton className="h-[150px] w-[250px] rounded-xl" />
+			)}
+			<div className="p-4">
+				<p className="font-semibold text-xl">{title}</p>
+				<p className="text-gray-600 text-base mt-2">
+					{extractTextFromHTML(content).substring(0, 100)}...
+				</p>
+			</div>
+		</div>
 	);
 }
 

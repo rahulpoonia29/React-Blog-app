@@ -10,6 +10,7 @@ import SignupForm from "./pages/Signup";
 import { LoginForm } from "./pages/Login";
 import NewPost from "./pages/NewPost";
 import AllPosts from "./pages/AllPosts";
+import Blog from "./pages/Blog";
 
 function App() {
 	const router = createBrowserRouter(
@@ -20,10 +21,10 @@ function App() {
 				<Route path="/register" element={<SignupForm />} />
 				<Route path="/all" element={<AllPosts />} />
 				<Route path="/new" element={<NewPost />} />
+				<Route path="/post/:postID" element={<Blog />} />
 				{/* <Route path="/profile" element={<Profile />} /> */}
 				{/* <Route path="/dashboard" element={<Dashboard />} /> */}
 				{/* <Route path="/about" element={<About />} /> */}
-				{/* <Route path="/contact" element={<Contact />} /> */}
 			</Route>
 		)
 	);

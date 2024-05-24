@@ -8,7 +8,7 @@ import UserMenu from "./UserMenu";
 export default function Navbar() {
 	const authStatus = useSelector((state) => state.auth.status);
 	return (
-		<header className="sticky top-0 bg-gray-400 backdrop-filter backdrop-blur-md bg-opacity-40 flex justify-between h-16  w-full shrink-0 items-center px-4 md:px-6 border border-b-2">
+		<header className="sticky top-0 z-10 bg-gray-400 backdrop-filter backdrop-blur-md bg-opacity-40 flex justify-between h-16  w-full shrink-0 items-center px-4 md:px-6 border border-b-2">
 			<Button asChild variant="ghost">
 				<Link className="text-lg" href="#">
 					<MountainIcon className="h-8 w-8" />
