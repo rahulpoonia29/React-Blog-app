@@ -16,10 +16,13 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import fileService from "../appwrite/file";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import config from "../config/config";
 
-function NewPost() {
+function Edit() {
+	const location = useLocation();
+	const post = location.state?.post;
+
 	const {
 		register,
 		handleSubmit,
@@ -27,7 +30,13 @@ function NewPost() {
 		setValue,
 		formState: { errors },
 		control,
-	} = useForm();
+	} = useForm({
+		defaultValues: {
+			title: post?.title,
+			content: post?.content,
+			status: post?.status,
+		},
+	});
 
 	const slugify = (str) => {
 		return str
@@ -46,20 +55,19 @@ function NewPost() {
 	}, [watch("title")]);
 
 	const submitPost = async (formData) => {
-		// console.log(data.image);
-		fileService.uploadFile(formData.image[0]).then(async (data) => {
-			console.log(data);
-			postService
-				.createPost(formData.slug, {
-					...formData,
-					userID: userData.$id,
-					featuredImage: data.$id,
-				})
-				.then(() => {
-					navigate("/");
-				});
-		});
+		// fileService.uploadFile(formData.image[0]).then(async (data) => {
+		// console.log(data);
+		postService
+			.updatePost(formData.slug, {
+				...formData,
+				userID: userData.$id,
+				featuredImage: data.$id,
+			})
+			.then(() => {
+				navigate("/");
+			});
 	};
+	// console.log(post);
 
 	return (
 		<form onSubmit={handleSubmit(submitPost)} noValidate>
@@ -77,7 +85,7 @@ function NewPost() {
 								required: "Post title is required",
 							})}
 						/>
-						<Button type="submit">Create Post</Button>
+						<Button type="submit">Update Post</Button>
 					</div>
 					<p className="text-red-500 text-sm">
 						{errors.title && errors.title.message}
@@ -164,7 +172,7 @@ function NewPost() {
 						<Editor
 							apiKey={config.TINYEDITOR_API}
 							onEditorChange={onChange}
-							initialValue=""
+							initialValue={post?.content}
 							init={{
 								height: 450,
 								menubar: true,
@@ -207,4 +215,4 @@ function NewPost() {
 	);
 }
 
-export default NewPost;
+export default Edit;

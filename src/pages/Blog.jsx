@@ -1,37 +1,53 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 import { useParams, useNavigate } from "react-router-dom";
 import postService from "../appwrite/post";
 import fileService from "../appwrite/file";
 import parse from "html-react-parser";
+import { useSelector } from "react-redux";
+import { Edit } from "lucide-react";
 
 function PostDetail() {
 	const { postID } = useParams();
-	const navigate = useNavigate();
 	const [post, setPost] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [image, setImage] = useState(null);
+	const [error, setError] = useState(null);
+
+	const navigate = useNavigate();
+	const userData = useSelector((state) => state.auth.userData);
 
 	useEffect(() => {
-		postService
-			.getPost(postID)
-			.then((data) => {
-				console.log("Data ", data);
+		const fetchPost = async () => {
+			try {
+				const data = await postService.getPost(postID);
 				setPost(data);
 				if (data.featuredImage) {
-					fileService
-						.getFile(data.featuredImage)
-						.then((file) => setImage(file.href));
+					const file = await fileService.getFile(data.featuredImage);
+					setImage(file.href);
 				}
-			})
-			.finally(() => setLoading(false));
+			} catch (error) {
+				setError("Error fetching post. Please try again later.");
+				console.error("Error fetching post", error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchPost();
 	}, [postID]);
 
 	if (loading) {
 		return (
 			<div className="h-full grid justify-center items-center text-2xl font-semibold">
-				Loading...
+				<div className="loader">Loading...</div>{" "}
+				{/* Add a spinner or loader animation */}
 			</div>
 		);
+	}
+
+	if (error) {
+		return <div className="text-center mt-20 text-2xl">{error}</div>;
 	}
 
 	if (!post) {
@@ -40,12 +56,22 @@ function PostDetail() {
 
 	return (
 		<div className="max-w-4xl mx-auto my-8 p-4">
-			<button
-				onClick={() => navigate(-1)}
-				className="text-blue-600 hover:underline mb-4"
-			>
-				&larr; Back to Posts
-			</button>
+			<div className="flex mb-4 gap-4 justify-between">
+				<Button onClick={() => navigate(-1)} className="">
+					&larr; Back to Posts
+				</Button>
+				{userData?.$id === post?.userID && (
+					<Button
+						onClick={() =>
+							navigate(`/edit/${postID}`, { state: {post } })
+						}
+						className="flex items-center gap-2"
+						post={post}
+					>
+						<Edit className="w-4 h-4" /> Edit Post
+					</Button>
+				)}
+			</div>
 			{image ? (
 				<img
 					src={image}

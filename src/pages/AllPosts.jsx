@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import postService from "../appwrite/post";
 import Post from "../components/post/Post";
 
@@ -6,10 +6,11 @@ function AllPosts() {
 	const [posts, setPosts] = useState([]);
 	const [loading, setLoading] = useState(true);
 
-	useMemo(() => {
+	useEffect(() => {
 		postService
 			.getPosts()
 			.then((data) => setPosts(data.documents))
+			.catch((error) => console.error(error))
 			.finally(() => setLoading(false));
 	}, []);
 

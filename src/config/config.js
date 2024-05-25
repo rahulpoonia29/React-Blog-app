@@ -4,7 +4,7 @@ const config = {
 	APPWRITE_DATABASE_ID: import.meta.env.VITE_APPWRITE_DATABASE_ID,
 	APPWRITE_COLLECTION_ID: import.meta.env.VITE_APPWRITE_COLLECTION_ID,
 	APPWRITE_BUCKET_ID: import.meta.env.VITE_APPWRITE_BUCKET_ID,
-	TINYEDITOR_API_KEY: import.meta.env.VITE_TINYEDITOR_API_KEY,
+	TINYEDITOR_API: import.meta.env.VITE_TINYEDITOR_API,
 };
 
 export default config;
