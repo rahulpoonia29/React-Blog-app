@@ -12,6 +12,7 @@ import NewPost from "./pages/NewPost";
 import AllPosts from "./pages/AllPosts";
 import Blog from "./pages/Blog";
 import Edit from "./pages/Edit";
+import Profile from "./pages/Profile";
 
 function App() {
 	const router = createBrowserRouter(
@@ -24,7 +25,7 @@ function App() {
 				<Route path="/new" element={<NewPost />} />
 				<Route path="/post/:postID" element={<Blog />} />
 				<Route path="/edit/:postID" element={<Edit />} />
-				{/* <Route path="/profile" element={<Profile />} /> */}
+				<Route path="/profile" element={<Profile />} />
 				{/* <Route path="/dashboard" element={<Dashboard />} /> */}
 				{/* <Route path="/about" element={<About />} /> */}
 			</Route>

@@ -23,7 +23,7 @@ function PostDetail() {
 				const data = await postService.getPost(postID);
 				setPost(data);
 				if (data.featuredImage) {
-					const file = await fileService.getFile(data.featuredImage);
+					const file = await fileService.getFile(data.featuredImage,50);
 					setImage(file.href);
 				}
 			} catch (error) {

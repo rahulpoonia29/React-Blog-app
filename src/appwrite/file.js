@@ -25,12 +25,21 @@ class FileService {
 		}
 	}
 
-	async getFile(fileID, ...rest) {
+	async getFile(fileID, quality, ...rest) {
 		try {
 			return await this.storage.getFilePreview(
 				config.APPWRITE_BUCKET_ID,
 				fileID,
-				...rest
+				undefined, // width (optional)
+				undefined, // height (optional)
+				undefined, // gravity (optional)
+				quality, // quality (optional) - set your desired quality value here
+				undefined, // borderWidth (optional)
+				undefined, // borderColor (optional)
+				undefined, // borderRadius (optional)
+				undefined, // opacity (optional)
+				undefined, // rotation (optional)
+				undefined // background (optional)
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: fileService :: getFile", error);

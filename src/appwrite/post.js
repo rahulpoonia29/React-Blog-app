@@ -1,4 +1,4 @@
-import { Account, Client, Databases, ID, Query } from "appwrite";
+import { Client, Databases, ID, Query } from "appwrite";
 import config from "../config/config";
 
 class PostService {
@@ -12,12 +12,12 @@ class PostService {
 		this.database = new Databases(this.client);
 	}
 
-	async createPost(slug, { title, content, featuredImage, status, userID }) {
+	async createPost({ title, content, featuredImage, status, userID }) {
 		try {
 			return await this.database.createDocument(
 				config.APPWRITE_DATABASE_ID,
 				config.APPWRITE_COLLECTION_ID,
-				slug,
+				ID.unique(),
 				{
 					title,
 					content,
@@ -32,12 +32,12 @@ class PostService {
 		}
 	}
 
-	async updatePost(slug, { title, content, featuredImage, status }) {
+	async updatePost({ title, content, featuredImage, status }) {
 		try {
 			return await this.database.updateDocument(
 				config.APPWRITE_DATABASE_ID,
 				config.APPWRITE_COLLECTION_ID,
-				slug,
+				ID.unique(),
 				{
 					title,
 					content,
@@ -77,12 +77,12 @@ class PostService {
 		}
 	}
 
-	async deletePost(slug) {
+	async deletePost(postID) {
 		try {
 			return await this.database.deleteDocument(
 				config.APPWRITE_DATABASE_ID,
 				config.APPWRITE_COLLECTION_ID,
-				slug
+				postID
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: postService :: deletePost", error);

@@ -28,7 +28,9 @@ function Post({ title, content, featuredImage, $id, ...rest }) {
 	};
 
 	useEffect(() => {
-		fileService.getFile(featuredImage).then((data) => setImage(data.href));
+		fileService.getFile(featuredImage, 5).then((data) => {
+			setImage(data.href);
+		});
 	}, [featuredImage]);
 
 	return (

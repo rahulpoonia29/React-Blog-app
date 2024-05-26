@@ -25,7 +25,14 @@ function UserMenu() {
 					alt="@shadcn"
 				/>
 				<AvatarFallback>
-					{userData ? userData.name.charAt(0) : ""}
+					{userData
+						? userData.name.charAt(0) +
+						  (userData.name.indexOf(" ") !== -1
+								? userData.name.charAt(
+										userData.name.indexOf(" ") + 1
+								  )
+								: "")
+						: ""}
 				</AvatarFallback>
 			</Avatar>
 
@@ -42,11 +49,15 @@ function UserMenu() {
 				<DropdownMenuContent className="mr-10 w-40 text-lg">
 					<DropdownMenuLabel>My Account</DropdownMenuLabel>
 					<DropdownMenuSeparator />
-					<DropdownMenuItem>Profile</DropdownMenuItem>
-					<DropdownMenuItem>
+					<DropdownMenuItem asChild className="cursor-pointer">
+						<Link to={"/profile"}>Profile</Link>
+					</DropdownMenuItem>
+					<DropdownMenuItem asChild className="cursor-pointer">
 						<Link to={"/new"}>Create New Post</Link>
 					</DropdownMenuItem>
-					<DropdownMenuItem>Settings</DropdownMenuItem>
+					<DropdownMenuItem className="cursor-pointer">
+						Settings
+					</DropdownMenuItem>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem>
 						<Logout />

@@ -29,35 +29,28 @@ function NewPost() {
 		control,
 	} = useForm();
 
-	const slugify = (str) => {
-		return str
-			.toLowerCase()
-			.trim()
-			.replace(/[^\w\s-]/g, "")
-			.replace(/\s+/g, "-");
-	};
-
 	const navigate = useNavigate();
-	const [slug, setSlug] = useState("");
 	const userData = useSelector((state) => state.auth.userData);
 
-	useEffect(() => {
-		setValue("slug", slugify(watch("title")));
-	}, [watch("title")]);
-
 	const submitPost = async (formData) => {
-		// console.log(data.image);
 		fileService.uploadFile(formData.image[0]).then(async (data) => {
-			console.log(data);
 			postService
-				.createPost(formData.slug, {
+				.createPost({
 					...formData,
 					userID: userData.$id,
 					featuredImage: data.$id,
 				})
-				.then(() => {
-					navigate("/");
-				});
+				.then((data) => {
+					if (data) {
+						navigate("/");
+					} else throw new Error("Error creating post");
+				})
+				.catch(
+					async (error) =>
+						await fileService
+							.deleteFile(data.$id)
+							.then(() => console.error("Error", error))
+				);
 		});
 	};
 
@@ -135,31 +128,17 @@ function NewPost() {
 							{errors.status && errors.status.message}
 						</p>
 					</div>
-					<div className="grow">
-						<Label className="text-md" htmlFor="slug">
-							Slug
-						</Label>
-						<Input
-							id="slug"
-							type="text"
-							placeholder="Slug of the post"
-							{...register("slug", {
-								required: "Slug is required",
-								pattern: {
-									value: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-									message: "Enter a valid slug",
-								},
-							})}
-						/>
-						<p className="text-red-500 text-sm">
-							{errors.slug && errors.slug.message}
-						</p>
-					</div>
 				</div>
 				<Controller
 					name="content"
 					control={control}
-					rules={{ required: "Post content is required" }}
+					rules={{
+						required: "Post content is required",
+						maxLength: {
+							value: 19000,
+							message: "Content is too long",
+						},
+					}}
 					render={({ field: { onChange } }) => (
 						<Editor
 							apiKey={config.TINYEDITOR_API}

@@ -113,7 +113,7 @@ function Edit() {
 						</p>
 					</div>
 
-					<div>
+					<div className="">
 						<Label className="text-md" htmlFor="status">
 							Status
 						</Label>
@@ -125,7 +125,7 @@ function Edit() {
 							render={({ field: { onChange, value } }) => (
 								<Select onValueChange={onChange} value={value}>
 									<SelectTrigger
-										className="max-w-[180px] sm:w-[180px]"
+										className="grow w-[120px]"
 										id="status"
 									>
 										<SelectValue placeholder="Select post visibility" />
