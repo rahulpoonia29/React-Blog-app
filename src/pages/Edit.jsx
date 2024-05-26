@@ -21,13 +21,18 @@ import config from "../config/config";
 
 function Edit() {
 	const location = useLocation();
+	const navigate = useNavigate();
+	const userData = useSelector((state) => state.auth.userData);
 	const post = location.state?.post;
+	const initialValues = {
+		title: post?.title,
+		content: post?.content,
+		status: post?.status,
+	};
 
 	const {
 		register,
 		handleSubmit,
-		watch,
-		setValue,
 		formState: { errors },
 		control,
 	} = useForm({
@@ -38,36 +43,37 @@ function Edit() {
 		},
 	});
 
-	const slugify = (str) => {
-		return str
-			.toLowerCase()
-			.trim()
-			.replace(/[^\w\s-]/g, "")
-			.replace(/\s+/g, "-");
+	const getChangedValues = (formData) => {
+		const changedValues = {};
+		for (const key in formData) {
+			if (formData[key] !== initialValues[key]) {
+				changedValues[key] = formData[key];
+			}
+		}
+		formData.featuredImage.length > 0
+			? (changedValues.featuredImage = formData.featuredImage)
+			: delete changedValues.featuredImage;
+		return changedValues;
 	};
 
-	const navigate = useNavigate();
-	const [slug, setSlug] = useState("");
-	const userData = useSelector((state) => state.auth.userData);
-
-	useEffect(() => {
-		setValue("slug", slugify(watch("title")));
-	}, [watch("title")]);
-
 	const submitPost = async (formData) => {
-		// fileService.uploadFile(formData.image[0]).then(async (data) => {
-		// console.log(data);
+		const changedValues = getChangedValues(formData);
+		if (changedValues.featuredImage) {
+			await fileService.deleteFile(post.featuredImage);
+			const file = await fileService.uploadFile(
+				changedValues.featuredImage[0]
+			);
+			changedValues.featuredImage = file.$id;
+		}
 		postService
-			.updatePost(formData.slug, {
-				...formData,
+			.updatePost(post.$id, {
+				...changedValues,
 				userID: userData.$id,
-				featuredImage: data.$id,
 			})
 			.then(() => {
 				navigate("/");
 			});
 	};
-	// console.log(post);
 
 	return (
 		<form onSubmit={handleSubmit(submitPost)} noValidate>
@@ -100,9 +106,7 @@ function Edit() {
 							id="featuredImage"
 							type="file"
 							placeholder="Upload the featured image"
-							{...register("image", {
-								required: "Image is required",
-							})}
+							{...register("featuredImage")}
 						/>
 						<p className="text-red-500 text-sm">
 							{errors.image && errors.image.message}
@@ -143,26 +147,6 @@ function Edit() {
 							{errors.status && errors.status.message}
 						</p>
 					</div>
-					<div className="grow">
-						<Label className="text-md" htmlFor="slug">
-							Slug
-						</Label>
-						<Input
-							id="slug"
-							type="text"
-							placeholder="Slug of the post"
-							{...register("slug", {
-								required: "Slug is required",
-								pattern: {
-									value: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-									message: "Enter a valid slug",
-								},
-							})}
-						/>
-						<p className="text-red-500 text-sm">
-							{errors.slug && errors.slug.message}
-						</p>
-					</div>
 				</div>
 				<Controller
 					name="content"
@@ -174,7 +158,7 @@ function Edit() {
 							onEditorChange={onChange}
 							initialValue={post?.content}
 							init={{
-								height: 450,
+								height: 600,
 								menubar: true,
 								plugins: [
 									"advlist",
