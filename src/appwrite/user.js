@@ -43,6 +43,20 @@ class UserService {
 			return null;
 		}
 	}
+
+	async updateUser(documentID, { name, bio }) {
+		try {
+			return await this.database.updateDocument(
+				config.APPWRITE_DATABASE_ID,
+				config.APPWRITE_USER_COLLECTION_ID,
+				documentID,
+				{ name, bio }
+			);
+		} catch (error) {
+			console.log("Appwrite Error :: userService :: updateUser", error);
+			return null;
+		}
+	}
 }
 
 const userService = new UserService();

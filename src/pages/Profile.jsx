@@ -3,12 +3,24 @@ import Post from "../components/post/Post";
 import postService from "../appwrite/post";
 import { Query } from "appwrite";
 import { useSelector } from "react-redux";
+import { Button } from "@/components/ui/button";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "lucide-react";
 import userService from "../appwrite/user";
 import { useParams } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import fileService from "../appwrite/file";
+import { useForm } from "react-hook-form";
 
 function Profile() {
 	const { userID } = useParams();
@@ -16,7 +28,24 @@ function Profile() {
 	const [user, setUser] = useState(null);
 	const [profileImg, setProfileImg] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const [saving, setSaving] = useState(false);
 	const userdata = useSelector((state) => state.auth.userData);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
+
+	const saveProfile = async (formData) => {
+		setSaving(true);
+		await userService
+			.updateUser(user.$id, { ...formData })
+			.then((data) => {
+				console.log("Profile updated", data);
+			})
+			.catch((error) => console.error(error))
+			.finally(() => setSaving(false));
+	};
 
 	useEffect(() => {
 		(async () => {
@@ -30,7 +59,7 @@ function Profile() {
 				.then((data) => setUser(data.documents[0]))
 				.catch((error) => console.error(error));
 		})();
-	}, [userID]);
+	}, [userID, saving]);
 
 	useEffect(() => {
 		user?.profileimg &&
@@ -60,9 +89,65 @@ function Profile() {
 						<p className="text-gray-800">{user?.bio}</p>
 					</div>
 					{userID === userdata.$id && (
-						<Button onClick={() => {}} className="md:ml-4">
-							Edit Profile
-						</Button>
+						<Dialog>
+							<DialogTrigger asChild>
+								<Button variant="outline" className="md:ml-4">
+									Edit Profile
+								</Button>
+							</DialogTrigger>
+							<DialogContent className="sm:max-w-[425px]">
+								<DialogHeader>
+									<DialogTitle>Edit profile</DialogTitle>
+									<DialogDescription>
+										Make changes to your profile here. Click
+										save when you're done.
+									</DialogDescription>
+								</DialogHeader>
+								<form onSubmit={handleSubmit(saveProfile)}>
+									<div className="grid gap-4">
+										<div className="grid gap-2">
+											<Label htmlFor="name">Name</Label>
+											<Input
+												id="name"
+												className="col-span-3"
+												{...register("name", {
+													required:
+														"Name is required",
+												})}
+											/>
+											<p className="text-red-500 text-sm">
+												{errors.name &&
+													errors.name.message}
+											</p>
+										</div>
+										<div className="grid gap-2">
+											<Label htmlFor="bio">Name</Label>
+											<Input
+												id="bio"
+												className="col-span-3"
+												{...register("bio", {
+													required: "Bio is required",
+													maxLength: {
+														value: 25,
+														message:
+															"Bio must be less than 25 characters",
+													},
+												})}
+											/>
+											<p className="text-red-500 text-sm">
+												{errors.bio &&
+													errors.bio.message}
+											</p>
+										</div>
+									</div>{" "}
+									<DialogFooter>
+										<Button type="submit">
+											{saving ? "Saving" : "Save changes"}
+										</Button>
+									</DialogFooter>{" "}
+								</form>
+							</DialogContent>
+						</Dialog>
 					)}
 				</div>
 				<div className="m-8">
