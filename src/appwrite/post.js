@@ -16,7 +16,7 @@ class PostService {
 		try {
 			return await this.database.createDocument(
 				config.APPWRITE_DATABASE_ID,
-				config.APPWRITE_COLLECTION_ID,
+				config.APPWRITE_ARTICLE_COLLECTION_ID,
 				ID.unique(),
 				{
 					title,
@@ -28,7 +28,7 @@ class PostService {
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: postService :: createPost", error);
-			return false;
+			return null;
 		}
 	}
 
@@ -36,7 +36,7 @@ class PostService {
 		try {
 			return await this.database.updateDocument(
 				config.APPWRITE_DATABASE_ID,
-				config.APPWRITE_COLLECTION_ID,
+				config.APPWRITE_ARTICLE_COLLECTION_ID,
 				ID.unique(),
 				{
 					title,
@@ -47,7 +47,7 @@ class PostService {
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: postService :: updatePost", error);
-			return false;
+			return null;
 		}
 	}
 
@@ -55,7 +55,7 @@ class PostService {
 		try {
 			return await this.database.getDocument(
 				config.APPWRITE_DATABASE_ID,
-				config.APPWRITE_COLLECTION_ID,
+				config.APPWRITE_ARTICLE_COLLECTION_ID,
 				postID
 			);
 		} catch (error) {
@@ -68,7 +68,7 @@ class PostService {
 		try {
 			return await this.database.listDocuments(
 				config.APPWRITE_DATABASE_ID,
-				config.APPWRITE_COLLECTION_ID,
+				config.APPWRITE_ARTICLE_COLLECTION_ID,
 				queries
 			);
 		} catch (error) {
@@ -81,7 +81,7 @@ class PostService {
 		try {
 			return await this.database.deleteDocument(
 				config.APPWRITE_DATABASE_ID,
-				config.APPWRITE_COLLECTION_ID,
+				config.APPWRITE_ARTICLE_COLLECTION_ID,
 				postID
 			);
 		} catch (error) {

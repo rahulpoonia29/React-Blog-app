@@ -13,7 +13,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import authenticationService from "../appwrite/auth";
-import {  login } from "../store/authSlice";
+import { login } from "../store/authSlice";
 import { useNavigate } from "react-router-dom";
 
 export function LoginForm() {
@@ -27,11 +27,11 @@ export function LoginForm() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const submitlogin = async (data) => {
+	const submitlogin = async (formData) => {
 		setLoading(true);
 		setError("");
 		await authenticationService
-			.Login({ ...data })
+			.Login({ ...formData })
 			.then((data) => {
 				if (data) {
 					console.log("Login successful", data);

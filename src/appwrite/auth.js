@@ -22,7 +22,7 @@ class AuthenticationService {
 			);
 			if (userAccount) {
 				// Login the user
-				this.Login({ email, password });
+				await this.Login({ email, password });
 				return this.getCurrentUser();
 			} else {
 				return null;

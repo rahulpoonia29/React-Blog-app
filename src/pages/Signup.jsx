@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import authenticationService from "../appwrite/auth";
 import { login } from "../store/authSlice";
+import userService from "../appwrite/user";
 
 function SignupForm() {
 	const {
@@ -26,18 +27,25 @@ function SignupForm() {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
 
-	const signup = async (data) => {
-		console.log(data);
+	const signup = async (formData) => {
 		setLoading(true);
 		setError("");
 		await authenticationService
-			.createAccount({ ...data })
-			.then((data) => {
+			.createAccount({ ...formData })
+			.then(async (data) => {
 				if (data) {
-					console.log("SignUp successful", data);
-					dispatch(login({ userData: data }));
-					navigate("/");
+					await userService
+						.createUser({ userid: data.$id, name:data.name })
+						.then(() => {
+							console.log("SignUp successful", data);
+							dispatch(login({ userData: data }));
+							navigate("/");
+						})
+						.catch((error) =>
+							console.log("Error creating new user", error)
+						);
 				} else {
+					console.log("Error during signup", data);
 				}
 			})
 			.catch((error) => {
