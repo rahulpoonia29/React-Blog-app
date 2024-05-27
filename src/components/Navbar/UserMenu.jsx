@@ -37,7 +37,7 @@ function UserMenu() {
 
 	return (
 		<div className="flex">
-			<Avatar>
+			<Avatar className="mr-2">
 				<AvatarImage src={profileImg} alt="@shadcn" />
 				<AvatarFallback>
 					{userData
@@ -52,7 +52,7 @@ function UserMenu() {
 			</Avatar>
 
 			<DropdownMenu>
-				<DropdownMenuTrigger asChild>
+				<DropdownMenuTrigger asChild className="px-2">
 					<Button
 						variant="ghost"
 						className="group text-md flex gap-0.5 transition-all "

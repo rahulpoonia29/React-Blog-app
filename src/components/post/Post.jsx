@@ -28,7 +28,7 @@ function Post({ title, content, featuredImage, $id, ...rest }) {
 	};
 
 	useEffect(() => {
-		fileService.getFile(featuredImage, 5).then((data) => {
+		fileService.getFile(featuredImage, 30).then((data) => {
 			setImage(data.href);
 		});
 	}, [featuredImage]);
@@ -49,11 +49,6 @@ function Post({ title, content, featuredImage, $id, ...rest }) {
 			)}
 			<div className="p-4">
 				<p className="font-semibold text-xl">{title}</p>
-				<p>Tags</p>
-				{/* <p className="text-gray-600 text-base mt-2">
-					{extractTextFromHTML(content).substring(0, 100)}
-					...
-				</p> */}
 			</div>
 		</div>
 	);

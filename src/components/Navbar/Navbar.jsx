@@ -12,7 +12,7 @@ export default function Navbar() {
 			<Button asChild variant="ghost">
 				<Link className="text-lg" href="#">
 					<MountainIcon className="h-8 w-8" />
-					&nbsp;&nbsp;BLOG
+					&nbsp;&nbsp;BLOGIFY
 				</Link>
 			</Button>
 			{authStatus ? (
