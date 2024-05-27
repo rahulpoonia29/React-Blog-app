@@ -25,13 +25,13 @@ class FileService {
 		}
 	}
 
-	async getFile(fileID, quality, ...rest) {
+	async getFile(fileID, quality, size, ...rest) {
 		try {
 			return await this.storage.getFilePreview(
 				config.APPWRITE_BUCKET_ID,
 				fileID,
-				undefined, // width (optional)
-				undefined, // height (optional)
+				size,
+				size,
 				undefined, // gravity (optional)
 				quality, // quality (optional) - set your desired quality value here
 				undefined, // borderWidth (optional)

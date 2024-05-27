@@ -25,7 +25,7 @@ function App() {
 				<Route path="/new" element={<NewPost />} />
 				<Route path="/post/:postID" element={<Blog />} />
 				<Route path="/edit/:postID" element={<Edit />} />
-				<Route path="/profile" element={<Profile />} />
+				<Route path="/profile/:userID" element={<Profile />} />
 				{/* <Route path="/dashboard" element={<Dashboard />} /> */}
 				{/* <Route path="/about" element={<About />} /> */}
 			</Route>

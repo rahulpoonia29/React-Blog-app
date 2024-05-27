@@ -8,22 +8,37 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, LogOut } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Logout from "./LogoutBtn";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import fileService from "../../appwrite/file";
+import userService from "../../appwrite/user";
 
 function UserMenu() {
+	const [user, setUser] = useState(null);
+	const [profileImg, setProfileImg] = useState(null);
 	const userData = useSelector((state) => state.auth.userData);
 
+	useEffect(() => {
+		userService
+			.getUser(userData.$id)
+			.then((data) => setUser(data.documents[0]))
+			.catch((error) => console.error(error));
+	}, [userData]);
+
+	useEffect(() => {
+		user?.profileimg &&
+			fileService.getFile(user.profileimg, 100, 56).then((data) => {
+				setProfileImg(data.href);
+			});
+	}, [user]);
+
 	return (
-		<div className="flex gap-2 ">
+		<div className="flex">
 			<Avatar>
-				<AvatarImage
-					// src="https://github.com/shadcn.png"
-					alt="@shadcn"
-				/>
+				<AvatarImage src={profileImg} alt="@shadcn" />
 				<AvatarFallback>
 					{userData
 						? userData.name.charAt(0) +
@@ -50,7 +65,7 @@ function UserMenu() {
 					<DropdownMenuLabel>My Account</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem asChild className="cursor-pointer">
-						<Link to={"/profile"}>Profile</Link>
+						<Link to={`/profile/${userData.$id}`}>Profile</Link>
 					</DropdownMenuItem>
 					<DropdownMenuItem asChild className="cursor-pointer">
 						<Link to={"/new"}>Create New Post</Link>
