@@ -55,7 +55,7 @@ function PostDetail() {
 	}
 
 	return (
-		<div className="max-w-4xl mx-auto my-8 p-4">
+		<div className="w-screen max-w-4xl mx-auto my-8 p-4">
 			<div className="flex mb-4 gap-4 justify-between">
 				<Button onClick={() => navigate(-1)} className="">
 					&larr; Back to Posts

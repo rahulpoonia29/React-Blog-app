@@ -33,11 +33,26 @@ function Profile() {
 	const {
 		register,
 		handleSubmit,
+		setValue,
 		formState: { errors },
-	} = useForm();
+	} = useForm({
+		defaultValues: {
+			name: "",
+		},
+	});
 
 	const saveProfile = async (formData) => {
 		setSaving(true);
+		if (formData.profileimg[0]) {
+			user.profileimg
+				? await fileService.deleteFile(user?.profileimg)
+				: null;
+			const file = await fileService.uploadFile(formData.profileimg[0]);
+			formData.profileimg = file.$id;
+		} else {
+			formData.profileimg = user.profileimg ? user.profileimg : null;
+		}
+
 		await userService
 			.updateUser(user.$id, { ...formData })
 			.then((data) => {
@@ -48,17 +63,23 @@ function Profile() {
 	};
 
 	useEffect(() => {
-		(async () => {
-			await postService
-				.getPosts([Query.equal("userID", userID)])
-				.then((data) => setPosts(data.documents))
-				.catch((error) => console.error(error))
-				.finally(() => setLoading(false));
-			await userService
-				.getUser(userID)
-				.then((data) => setUser(data.documents[0]))
-				.catch((error) => console.error(error));
-		})();
+		postService
+			.getPosts([Query.equal("userID", userID)])
+			.then((data) => setPosts(data.documents))
+			.catch((error) => console.error(error))
+			.finally(() => setLoading(false));
+	}, [userID]);
+
+	useEffect(() => {
+		userService
+			.getUser(userID)
+			.then((data) => {
+				setUser(data.documents[0]);
+				setValue("name", data.documents[0].name);
+				setValue("bio", data.documents[0].bio);
+			})
+			.catch((error) => console.error(error));
+		console.log(user);
 	}, [userID, saving]);
 
 	useEffect(() => {
@@ -121,7 +142,7 @@ function Profile() {
 											</p>
 										</div>
 										<div className="grid gap-2">
-											<Label htmlFor="bio">Name</Label>
+											<Label htmlFor="bio">Bio</Label>
 											<Input
 												id="bio"
 												className="col-span-3"
@@ -139,8 +160,26 @@ function Profile() {
 													errors.bio.message}
 											</p>
 										</div>
+										<div className="grid gap-2">
+											<Label
+												className="text-md"
+												htmlFor="profileimg"
+											>
+												Profile Picture
+											</Label>
+											<Input
+												id="profileimg"
+												type="file"
+												placeholder="Upload the featured image"
+												{...register("profileimg")}
+											/>
+											<p className="text-red-500 text-sm">
+												{errors.image &&
+													errors.image.message}
+											</p>
+										</div>
 									</div>{" "}
-									<DialogFooter>
+									<DialogFooter className="mt-2">
 										<Button type="submit">
 											{saving ? "Saving" : "Save changes"}
 										</Button>

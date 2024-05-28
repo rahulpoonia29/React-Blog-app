@@ -44,13 +44,13 @@ class UserService {
 		}
 	}
 
-	async updateUser(documentID, { name, bio }) {
+	async updateUser(documentID, { name, bio, profileimg }) {
 		try {
 			return await this.database.updateDocument(
 				config.APPWRITE_DATABASE_ID,
 				config.APPWRITE_USER_COLLECTION_ID,
 				documentID,
-				{ name, bio }
+				{ name, bio, profileimg }
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: userService :: updateUser", error);
