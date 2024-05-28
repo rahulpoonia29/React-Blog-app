@@ -32,12 +32,12 @@ class PostService {
 		}
 	}
 
-	async updatePost({ title, content, featuredImage, status }) {
+	async updatePost(postID, { title, content, featuredImage, status }) {
 		try {
 			return await this.database.updateDocument(
 				config.APPWRITE_DATABASE_ID,
 				config.APPWRITE_ARTICLE_COLLECTION_ID,
-				ID.unique(),
+				postID,
 				{
 					title,
 					content,
