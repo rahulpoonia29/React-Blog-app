@@ -52,7 +52,7 @@ function UserMenu() {
 			</Avatar>
 
 			<DropdownMenu>
-				<DropdownMenuTrigger asChild className="px-2">
+				<DropdownMenuTrigger asChild>
 					<Button
 						variant="ghost"
 						className="group text-md flex gap-0.5 transition-all "

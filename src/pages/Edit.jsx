@@ -65,10 +65,10 @@ function Edit() {
 			);
 			changedValues.featuredImage = file.$id;
 		}
+		console.log(changedValues);
 		postService
 			.updatePost(post.$id, {
 				...changedValues,
-				userID: userData.$id,
 			})
 			.then(() => {
 				navigate("/");
