@@ -9,7 +9,7 @@ import {
 import SignupForm from "./pages/Signup";
 import { LoginForm } from "./pages/Login";
 import NewPost from "./pages/NewPost";
-import AllPosts from "./pages/AllPosts";
+import Posts from "./pages/Posts";
 import Blog from "./pages/Blog";
 import Edit from "./pages/Edit";
 import Profile from "./pages/Profile";
@@ -21,7 +21,7 @@ function App() {
 				<Route path="/" element={<Navigate to={"/all"} />} />
 				<Route path="/login" element={<LoginForm />} />
 				<Route path="/register" element={<SignupForm />} />
-				<Route path="/all" element={<AllPosts />} />
+				<Route path="/all" element={<Posts />} />
 				<Route path="/new" element={<NewPost />} />
 				<Route path="/post/:postID" element={<Blog />} />
 				<Route path="/edit/:postID" element={<Edit />} />

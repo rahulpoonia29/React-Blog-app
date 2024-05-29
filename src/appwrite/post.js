@@ -28,7 +28,7 @@ class PostService {
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: postService :: createPost", error);
-			return null;
+			throw new Error(error.message);
 		}
 	}
 
@@ -47,7 +47,7 @@ class PostService {
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: postService :: updatePost", error);
-			return null;
+			throw new Error(error.message);
 		}
 	}
 
@@ -60,7 +60,7 @@ class PostService {
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: postService :: getPost", error);
-			return null;
+			throw new Error(error.message);
 		}
 	}
 
@@ -73,7 +73,7 @@ class PostService {
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: postService :: getPosts", error);
-			return false;
+			throw new Error(error.message);
 		}
 	}
 
@@ -86,7 +86,7 @@ class PostService {
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: postService :: deletePost", error);
-			return false;
+			throw new Error(error.message);
 		}
 	}
 }
