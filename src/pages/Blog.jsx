@@ -6,81 +6,64 @@ import postService from "../appwrite/post";
 import fileService from "../appwrite/file";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
-import {
-	ArrowLeft,
-	Edit,
-	Loader,
-	User,
-} from "lucide-react";
+import { ArrowLeft, Edit, Loader, User } from "lucide-react";
 import userService from "../appwrite/user";
+import { useQuery } from "@tanstack/react-query";
 
 function PostDetail() {
 	const { postID } = useParams();
-	const [post, setPost] = useState(null);
-	const [loading, setLoading] = useState(true);
 	const [image, setImage] = useState(null);
-	const [error, setError] = useState(null);
-	const [user, setUser] = useState(null);
 	const [profileImg, setProfileImg] = useState(null);
+
 	const navigate = useNavigate();
 	const userData = useSelector((state) => state.auth.userData);
 
-	useEffect(() => {
-		const fetchPost = async () => {
-			try {
-				const data = await postService.getPost(postID);
-				setPost(data);
-				if (data.featuredImage) {
-					const file = await fileService.getFile(
-						data.featuredImage,
-						50
-					);
-					setImage(file.href);
-				}
-			} catch (error) {
-				setError("Error fetching post. Please try again later.");
-				console.error("Error fetching post", error);
-			} finally {
-				setLoading(false);
-			}
-		};
+	const postQuery = useQuery({
+		queryKey: ["postQuery", postID],
+		queryFn: () => postService.getPost(postID),
+	});
 
-		fetchPost();
-	}, [postID]);
+	const userQuery = useQuery({
+		queryKey: ["userQuery", postQuery.data?.userID],
+		queryFn: async () => {
+			const response = await userService.getUser(postQuery.data.userID);
+			return response.documents[0];
+		},
+		enabled: !!postQuery.data?.userID,
+	});
 
 	useEffect(() => {
-		console.log(post);
-		post?.userID &&
-			userService
-				.getUser(post.userID)
+		postQuery.data?.featuredImage &&
+			fileService
+				.getFile(postQuery.data.featuredImage, 50)
+				.then((file) => setImage(file.href));
+	}, [postQuery.data]);
+
+	useEffect(() => {
+		userQuery.data?.profileimg &&
+			fileService
+				.getFile(userQuery.data.profileimg, 100, 56)
 				.then((data) => {
-					setUser(data.documents[0]);
-				})
-				.catch((error) => console.error(error));
-	}, [post]);
+					setProfileImg(data.href);
+				});
+	}, [userQuery.data]);
 
-	useEffect(() => {
-		user?.profileimg &&
-			fileService.getFile(user.profileimg, 100, 56).then((data) => {
-				setProfileImg(data.href);
-			});
-	}, [user]);
-
-	if (loading) {
+	if (postQuery.isPending)
 		return (
 			<div className="h-full grid justify-center items-center text-2xl font-semibold">
 				<Loader className="size-14 animate-spin" />
 			</div>
 		);
-	}
 
-	if (error) {
-		return <div className="text-center mt-20 text-2xl">{error}</div>;
-	}
+	if (postQuery.error)
+		return (
+			<div className="text-center mt-20 text-2xl">
+				{postQuery.error.message}
+			</div>
+		);
 
-	if (!post) {
+	if (!postQuery.data)
 		return <div className="text-center mt-20 text-2xl">Post not found</div>;
-	}
 
 	return (
 		<div className="w-screen max-w-4xl mx-auto my-8 p-4">
@@ -91,19 +74,22 @@ function PostDetail() {
 				>
 					<ArrowLeft width={16} size={16} /> Back to Posts
 				</Button>
-				{userData?.$id === post?.userID && (
+				{userData?.$id === postQuery.data?.userID && (
 					<Button
 						onClick={() =>
-							navigate(`/edit/${postID}`, { state: { post } })
+							navigate(`/edit/${postID}`, {
+								state: { postData: postQuery.data },
+							})
 						}
 						className="flex items-center gap-2"
-						post={post}
 					>
 						<Edit className="w-4 h-4" /> Edit Post
 					</Button>
 				)}
 			</div>
-			<h1 className="font-bold text-3xl mb-4">{post.title}</h1>
+			<h1 className="font-bold text-3xl mb-4">
+				{postQuery.data && postQuery.data.title}
+			</h1>
 			<div className="flex justify-between items-center mt-6 mx-4 ml-2">
 				<div className="flex items-center mb-4 gap-2">
 					<Avatar className="size-10 border-2 border-black">
@@ -113,13 +99,15 @@ function PostDetail() {
 						</AvatarFallback>
 					</Avatar>
 					<span className="text-lg font-medium">
-						{user ? user.name : "User"}
+						{userQuery.data ? userQuery.data.name : "User"}
 					</span>
 				</div>
 				<div className="mb-6 text-gray-800 text-sm">
 					<p>
 						Created on:{" "}
-						{new Date(post.$createdAt).toLocaleDateString("en-US", {
+						{new Date(
+							postQuery.data && postQuery.data.$createdAt
+						).toLocaleDateString("en-US", {
 							year: "numeric",
 							month: "long",
 							day: "numeric",
@@ -127,7 +115,9 @@ function PostDetail() {
 					</p>
 					<p>
 						Last updated:{" "}
-						{new Date(post.$updatedAt).toLocaleDateString("en-US", {
+						{new Date(
+							postQuery.data && postQuery.data.$updatedAt
+						).toLocaleDateString("en-US", {
 							year: "numeric",
 							month: "long",
 							day: "numeric",
@@ -138,7 +128,7 @@ function PostDetail() {
 			{image ? (
 				<img
 					src={image}
-					alt={post.title}
+					alt={postQuery.data.title}
 					className="rounded w-full object-center object-cover mb-4"
 					style={{ maxHeight: "500px" }}
 				/>
@@ -150,7 +140,7 @@ function PostDetail() {
 			)}
 
 			<div className="prose prose-lg max-w-none">
-				{parse(post.content)}
+				{postQuery.data && parse(postQuery.data.content)}
 			</div>
 		</div>
 	);

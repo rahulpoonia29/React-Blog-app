@@ -23,7 +23,7 @@ function Edit() {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const userData = useSelector((state) => state.auth.userData);
-	const post = location.state?.post;
+	const post = location.state?.postData;
 	const initialValues = {
 		title: post?.title,
 		content: post?.content,
