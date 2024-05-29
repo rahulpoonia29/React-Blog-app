@@ -38,7 +38,8 @@ function UserMenu() {
 				});
 	}, [userQuery.data?.profileimg]);
 
-	if (userQuery.isLoading) return <LoaderCircleIcon className="animate-spin"/>;
+	if (userQuery.isLoading)
+		return <LoaderCircleIcon className="animate-spin" />;
 	if (userQuery.error) {
 		console.log(userQuery.error);
 		return <div>Error loading user data</div>;
@@ -74,9 +75,7 @@ function UserMenu() {
 					<DropdownMenuLabel>My Account</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem asChild className="cursor-pointer">
-						<Link to={`/profile/${userQuery.data?.$id}`}>
-							Profile
-						</Link>
+						<Link to={`/profile/${userData?.$id}`}>Profile</Link>
 					</DropdownMenuItem>
 					<DropdownMenuItem asChild className="cursor-pointer">
 						<Link to={"/new"}>Create New Post</Link>

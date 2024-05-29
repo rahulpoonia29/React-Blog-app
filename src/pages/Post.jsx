@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import postService from "../appwrite/post";
 import fileService from "../appwrite/file";
 import parse from "html-react-parser";
@@ -98,9 +98,12 @@ function Post() {
 							<User />
 						</AvatarFallback>
 					</Avatar>
-					<span className="text-lg font-medium">
+					<Link
+						to={`/profile/${userQuery.data?.userid}`}
+						className="text-lg font-medium"
+					>
 						{userQuery.data ? userQuery.data.name : "User"}
-					</span>
+					</Link>
 				</div>
 				<div className="mb-6 text-gray-800 text-sm">
 					<p>

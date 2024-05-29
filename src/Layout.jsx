@@ -9,7 +9,6 @@ import { useQuery } from "@tanstack/react-query";
 
 function Layout() {
 	const dispatch = useDispatch();
-	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		authenticationService
@@ -22,15 +21,10 @@ function Layout() {
 			.catch((error) => {
 				console.error(error);
 				dispatch(logout());
-			})
-			.finally(() => setLoading(false));
+			});
 	}, []);
 
-	return loading ? (
-		<div className="h-screen grid justify-center items-center text-2xl font-semibold">
-			<Loader className="size-14 animate-spin" />
-		</div>
-	) : (
+	return (
 		<div className="w-full min-h-screen flex flex-col">
 			<Navbar />
 			<div className="flex-grow flex flex-col justify-center">

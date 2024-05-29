@@ -22,16 +22,12 @@ import userService from "../appwrite/user";
 import { useParams } from "react-router-dom";
 import fileService from "../appwrite/file";
 import { useForm } from "react-hook-form";
-import {
-	useMutation,
-	useQuery,
-	useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 function Profile() {
 	const { userID } = useParams();
 	const [profileImg, setProfileImg] = useState(null);
-	const userdata = useSelector((state) => state.auth.userData);
+	const userData = useSelector((state) => state.auth.userData);
 	const queryClient = useQueryClient();
 
 	const {
@@ -130,7 +126,7 @@ function Profile() {
 					</h1>
 					<p className="text-gray-800">{userQuery.data?.bio}</p>
 				</div>
-				{userID === userdata.$id && (
+				{userID === userData?.$id && (
 					<Dialog>
 						<DialogTrigger asChild>
 							<Button variant="outline" className="md:ml-4">
@@ -152,6 +148,7 @@ function Profile() {
 										<Input
 											id="name"
 											className="col-span-3"
+											placeholder="Enter your name"
 											{...register("name", {
 												required: "Name is required",
 											})}
@@ -165,6 +162,7 @@ function Profile() {
 										<Input
 											id="bio"
 											className="col-span-3"
+											placeholder="Enter your bio"
 											{...register("bio", {
 												required: "Bio is required",
 												maxLength: {
