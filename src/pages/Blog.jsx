@@ -6,7 +6,12 @@ import postService from "../appwrite/post";
 import fileService from "../appwrite/file";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
-import { ArrowLeft, Edit, MoveLeftIcon, User } from "lucide-react";
+import {
+	ArrowLeft,
+	Edit,
+	Loader,
+	User,
+} from "lucide-react";
 import userService from "../appwrite/user";
 
 function PostDetail() {
@@ -64,8 +69,7 @@ function PostDetail() {
 	if (loading) {
 		return (
 			<div className="h-full grid justify-center items-center text-2xl font-semibold">
-				<div className="loader">Loading...</div>{" "}
-				{/* Add a spinner or loader animation */}
+				<Loader className="size-14 animate-spin" />
 			</div>
 		);
 	}

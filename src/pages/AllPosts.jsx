@@ -17,16 +17,19 @@ function AllPosts() {
 
 	if (loading) {
 		return (
-			<div className="m-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 ">
-				{[...Array(9)].map((_, key) => (
-					<div className="w-full h-full flex flex-col space-y-3">
-						<Skeleton className="w-full aspect-video rounded-xl" />
-						<div className="space-y-2">
-							<Skeleton className="h-8 w-[250px]" />
-							<Skeleton className="h-4 w-[200px]" />
+			<div className="m-8">
+				<Skeleton className="h-8 w-[40%] md:w-60 font-semibold mb-6" />
+				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 ">
+					{[...Array(9)].map((_, key) => (
+						<div className="w-full h-full flex flex-col space-y-3">
+							<Skeleton className="w-full aspect-video rounded-xl" />
+							<div className="space-y-2">
+								<Skeleton className="h-8 w-[250px]" />
+								<Skeleton className="h-4 w-[200px]" />
+							</div>
 						</div>
-					</div>
-				))}
+					))}
+				</div>
 			</div>
 		);
 	} else {

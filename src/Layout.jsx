@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import authenticationService from "./appwrite/auth";
 import { Navbar, Footer } from "./components";
 import { Outlet } from "react-router-dom";
-import { LoaderCircle } from "lucide-react";
+import { Loader } from "lucide-react";
 
 function Layout() {
 	const dispatch = useDispatch();
@@ -27,7 +27,7 @@ function Layout() {
 
 	return loading ? (
 		<div className="h-screen grid justify-center items-center text-2xl font-semibold">
-			<LoaderCircle className="size-14 animate-spin" />
+			<Loader className="size-14 animate-spin" />
 		</div>
 	) : (
 		<div className="w-full min-h-screen flex flex-col">

@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { User } from "lucide-react";
+import { Loader, User } from "lucide-react";
 import userService from "../appwrite/user";
 import { useParams } from "react-router-dom";
 import fileService from "../appwrite/file";
@@ -30,6 +30,7 @@ function Profile() {
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const userdata = useSelector((state) => state.auth.userData);
+
 	const {
 		register,
 		handleSubmit,
@@ -92,7 +93,7 @@ function Profile() {
 	if (loading) {
 		return (
 			<div className="h-full grid justify-center items-center text-2xl font-semibold">
-				Loading Profile...
+				<Loader className="size-14 animate-spin" />
 			</div>
 		);
 	} else {
