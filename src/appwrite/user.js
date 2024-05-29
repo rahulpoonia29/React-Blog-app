@@ -27,7 +27,7 @@ class UserService {
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: userService :: createUser", error);
-			return null;
+			throw new Error(error.message);
 		}
 	}
 
@@ -40,7 +40,7 @@ class UserService {
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: userService :: getUser", error);
-			return null;
+			throw new Error(error.message);
 		}
 	}
 
@@ -54,7 +54,7 @@ class UserService {
 			);
 		} catch (error) {
 			console.log("Appwrite Error :: userService :: updateUser", error);
-			return null;
+			throw new Error(error.message);
 		}
 	}
 }

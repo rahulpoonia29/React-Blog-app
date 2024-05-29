@@ -10,7 +10,7 @@ import { ArrowLeft, Edit, Loader, User } from "lucide-react";
 import userService from "../appwrite/user";
 import { useQuery } from "@tanstack/react-query";
 
-function PostDetail() {
+function Post() {
 	const { postID } = useParams();
 	const [image, setImage] = useState(null);
 	const [profileImg, setProfileImg] = useState(null);
@@ -19,12 +19,12 @@ function PostDetail() {
 	const userData = useSelector((state) => state.auth.userData);
 
 	const postQuery = useQuery({
-		queryKey: ["postQuery", postID],
+		queryKey: ["post", postID],
 		queryFn: () => postService.getPost(postID),
 	});
 
 	const userQuery = useQuery({
-		queryKey: ["userQuery", postQuery.data?.userID],
+		queryKey: ["user", postQuery.data?.userID],
 		queryFn: async () => {
 			const response = await userService.getUser(postQuery.data.userID);
 			return response.documents[0];
@@ -146,4 +146,4 @@ function PostDetail() {
 	);
 }
 
-export default PostDetail;
+export default Post;

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import postService from "../appwrite/post";
-import Post from "../components/post/Post";
+import PostCard from "../components/post/PostCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
 
 function Posts() {
 	const postsQuery = useQuery({
-		queryKey: ["postsQuery"],
+		queryKey: ["posts"],
 		queryFn: () => postService.getPosts().then((data) => data.documents),
 	});
 
@@ -32,7 +32,12 @@ function Posts() {
 		);
 	}
 
-	if (postsQuery.error) return "An error has occurred: " + error.message;
+	if (postsQuery.error)
+		return (
+			<div className="text-center mt-20 text-2xl">
+				{postsQuery.error.message}
+			</div>
+		);
 
 	return (
 		<div className="m-8">
@@ -40,7 +45,7 @@ function Posts() {
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 ">
 				{(postsQuery.data && postsQuery.data.length) > 0 ? (
 					postsQuery.data.map((post, key) => (
-						<Post key={key} {...post} />
+						<PostCard key={key} {...post} />
 					))
 				) : (
 					<h1 className="text-center w-full col-span-full text-2xl">

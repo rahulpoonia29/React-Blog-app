@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import parse from "html-react-parser";
 
-function Post({ title, content, featuredImage, $id, ...rest }) {
+function PostCard({ title, content, featuredImage, $id, ...rest }) {
 	const [image, setImage] = useState(null);
 	const navigate = useNavigate();
 
@@ -54,4 +54,4 @@ function Post({ title, content, featuredImage, $id, ...rest }) {
 	);
 }
 
-export default Post;
+export default PostCard;
