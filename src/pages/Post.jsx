@@ -25,10 +25,10 @@ function Post() {
 
 	const userQuery = useQuery({
 		queryKey: ["user", postQuery.data?.userID],
-		queryFn: async () => {
-			const response = await userService.getUser(postQuery.data.userID);
-			return response.documents[0];
-		},
+		queryFn: async () =>
+			userService
+				.getUser(postQuery.data.userID)
+				.then((data) => data.documents[0]),
 		enabled: !!postQuery.data?.userID,
 	});
 

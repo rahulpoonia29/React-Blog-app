@@ -5,6 +5,7 @@ import authenticationService from "./appwrite/auth";
 import { Navbar, Footer } from "./components";
 import { Outlet } from "react-router-dom";
 import { Loader } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 
 function Layout() {
 	const dispatch = useDispatch();
@@ -23,7 +24,7 @@ function Layout() {
 				dispatch(logout());
 			})
 			.finally(() => setLoading(false));
-	});
+	}, []);
 
 	return loading ? (
 		<div className="h-screen grid justify-center items-center text-2xl font-semibold">

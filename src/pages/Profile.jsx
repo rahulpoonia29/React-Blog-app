@@ -32,7 +32,7 @@ function Profile() {
 	const { userID } = useParams();
 	const [profileImg, setProfileImg] = useState(null);
 	const userdata = useSelector((state) => state.auth.userData);
-	const QueryClient = useQueryClient();
+	const queryClient = useQueryClient();
 
 	const {
 		register,
@@ -65,7 +65,7 @@ function Profile() {
 		mutationFn: saveProfile,
 		onSuccess: () => {
 			console.log("Profile updated");
-			QueryClient.invalidateQueries(["user", userID]);
+			queryClient.invalidateQueries(["user", userID]);
 		},
 		onError: (error) => {
 			console.error(error);
