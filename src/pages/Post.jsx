@@ -105,7 +105,7 @@ function Post() {
 						{userQuery.data ? userQuery.data.name : "User"}
 					</Link>
 				</div>
-				<div className="mb-6 text-gray-800 text-sm">
+				<div className="mb-6 text-gray-800 dark:text-gray-300 text-sm">
 					<p>
 						Created on:{" "}
 						{new Date(

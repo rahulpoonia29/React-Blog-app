@@ -15,6 +15,7 @@ import Edit from "./pages/Edit";
 import Profile from "./pages/Profile";
 
 function App() {
+
 	const router = createBrowserRouter(
 		createRoutesFromElements(
 			<Route path="/" element={<Layout />}>

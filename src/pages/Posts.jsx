@@ -12,7 +12,7 @@ function Posts() {
 
 	if (postsQuery.isPending) {
 		return (
-			<div className="m-8">
+			<div className="m-0 md:m-8">
 				<Skeleton className="h-8 w-[40%] md:w-60 font-semibold mb-6" />
 				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 ">
 					{[...Array(9)].map((_, key) => (

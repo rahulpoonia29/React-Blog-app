@@ -7,12 +7,15 @@ export default function Component() {
 		{ icon: TwitterIcon, label: "Twitter", href: "#" },
 	];
 	return (
-		<footer className="dark bg-white py-3 border-0 border-t-2">
+		<footer className="bg-white dark:bg-zinc-950 py-3 border-0 border-t-2">
 			<div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between">
 				<div className="text-center md:text-left mb-3 md:mb-0">
-					<p className="text-lg">
+					<p className="text-lg text-black dark:text-white">
 						Made with ❤ by{" "}
-						<Link className="text-blue-700" href="">
+						<Link
+							className="text-blue-700 dark:text-blue-400"
+							to="#"
+						>
 							Rahul
 						</Link>
 					</p>
@@ -22,8 +25,8 @@ export default function Component() {
 					{socials.map((item, index) => (
 						<Link
 							key={index}
-							className="hover:text-gray-600 transition-colors"
-							href={item.href}
+							className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+							to={item.href}
 						>
 							<item.icon className="h-6 w-6" />
 							<span className="sr-only">{item.label}</span>

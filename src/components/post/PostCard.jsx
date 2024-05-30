@@ -35,22 +35,22 @@ function PostCard({ title, content, featuredImage, $id, ...rest }) {
 
 	return (
 		<div
-			className="cursor-pointer pb-4 bg-gray-100 border rounded-lg mx-auto shadow-lg w-full hover:shadow-2xl transition-transform transform hover:-translate-y-1.5"
-			onClick={() => navigate(`/post/${$id}`)}
-		>
-			{image ? (
-				<img
-					src={image}
-					alt={title}
-					className="rounded-t-lg w-full aspect-video object-center object-cover"
-				/>
-			) : (
-				<Skeleton className="h-[150px] w-[250px] rounded-xl" />
-			)}
-			<div className="p-4">
-				<p className="font-semibold text-xl">{title}</p>
-			</div>
+		className="cursor-pointer pb-4 bg-gray-100 dark:bg-zinc-800 border rounded-lg mx-auto shadow-lg w-full hover:shadow-2xl transition-transform transform hover:-translate-y-1.5"
+		onClick={() => navigate(`/post/${$id}`)}
+	>
+		{image ? (
+			<img
+				src={image}
+				alt={title}
+				className="rounded-t-lg w-full aspect-video object-center object-cover"
+			/>
+		) : (
+			<Skeleton className="h-[150px] w-[250px] rounded-xl" />
+		)}
+		<div className="p-4">
+			<p className="font-semibold text-xl dark:text-white">{title}</p>
 		</div>
+	</div>
 	);
 }
 

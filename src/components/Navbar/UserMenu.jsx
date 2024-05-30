@@ -65,7 +65,7 @@ function UserMenu() {
 				<DropdownMenuTrigger asChild>
 					<Button
 						variant="ghost"
-						className="group text-md flex gap-0.5 transition-all "
+						className="group text-md flex gap-1 pr-2 transition-all "
 					>
 						{userQuery.data?.name.split(" ")[0]}
 						<ChevronRight className="h-4 w-4 group-hover:rotate-90 transition-all" />

@@ -124,7 +124,7 @@ function Profile() {
 					<h1 className="text-2xl font-bold">
 						{userQuery.data?.name}
 					</h1>
-					<p className="text-gray-800">{userQuery.data?.bio}</p>
+					<p className="text-gray-800 dark:text-gray-300">{userQuery.data?.bio}</p>
 				</div>
 				{userID === userData?.$id && (
 					<Dialog>
