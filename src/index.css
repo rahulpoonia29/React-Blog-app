@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-	@apply bg-gray-100/50 dark:bg-zinc-900 text-black dark:text-white;
+	@apply bg-gray-100/50 font-poppins dark:bg-zinc-900 text-black dark:text-white;
 }
 
 @layer base {
