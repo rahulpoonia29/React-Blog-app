@@ -39,7 +39,7 @@ function UserMenu() {
 	}, [userQuery.data?.profileimg]);
 
 	if (userQuery.isLoading)
-		return <LoaderCircleIcon className="animate-spin" />;
+		return <LoaderCircleIcon className="animate-spin mr-6 my-auto" />;
 	if (userQuery.error) {
 		console.log(userQuery.error);
 		return <div>Error loading user data</div>;

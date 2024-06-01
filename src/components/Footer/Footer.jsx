@@ -2,8 +2,16 @@ import { Link } from "react-router-dom";
 
 export default function Component() {
 	const socials = [
-		{ icon: LinkedInIcon, label: "LinkedIN", href: "#" },
-		{ icon: GithubIcon, label: "GitHub", href: "#" },
+		{
+			icon: GithubIcon,
+			label: "GitHub",
+			href: "https://github.com/rahulpoonia29",
+		},
+		{
+			icon: LinkedInIcon,
+			label: "LinkedIN",
+			href: "https://www.linkedin.com/in/rahulpoonia",
+		},
 		{ icon: TwitterIcon, label: "Twitter", href: "#" },
 	];
 	return (
@@ -14,7 +22,8 @@ export default function Component() {
 						Made with ❤ by{" "}
 						<Link
 							className="text-blue-700 dark:text-blue-400"
-							to="#"
+							to="https://rahulpoonia.vercel.app"
+							target="_blank"
 						>
 							Rahul
 						</Link>
@@ -27,6 +36,7 @@ export default function Component() {
 							key={index}
 							className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
 							to={item.href}
+							target="_blank"
 						>
 							<item.icon className="h-6 w-6" />
 							<span className="sr-only">{item.label}</span>
